@@ -2,6 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+// INDICE
+// 1. Tipos primitivos
+// 2. string, object e var
+// 3. Value types
+// 4. Reference types
+// 5. Enum
+// 6. Record
+// 7. Nullable
+// 8. Colecoes
+// 9. IEnumerable e IQueryable
+// 10. Conversoes
+// 11. Boxing e unboxing
+// 12. ref, out e in
+// 13. Tipos anonimos e tuplas
+
 // Enum e um value type que representa um conjunto fixo de valores nomeados.
 enum StatusPedido
 {
@@ -35,6 +50,7 @@ class Program
 {
     static void Main()
     {
+        #region Tipos primitivos
         Console.WriteLine("TIPOS PRIMITIVOS");
         // Tipos numericos e logicos mais usados no dia a dia. Todos abaixo sao value types.
         bool ativo = true;
@@ -56,7 +72,9 @@ class Program
         Console.WriteLine($"float: {altura}");
         Console.WriteLine($"double: {pi}");
         Console.WriteLine($"decimal: {salario}");
+        #endregion
 
+        #region Texto object e var
         Console.WriteLine("\nTEXTO, OBJECT E VAR");
         // string e reference type; object e reference type; var so infere o tipo automaticamente.
         string nome = "Maria";
@@ -66,7 +84,9 @@ class Program
         Console.WriteLine($"string: {nome}");
         Console.WriteLine($"object: {qualquerCoisa}");
         Console.WriteLine($"var (inferido como string): {cidade}");
+        #endregion
 
+        #region Value types
         Console.WriteLine("\nVALUE TYPES");
         // DateTime e struct sao value types. Alterar a copia nao altera o original.
         DateTime hoje = DateTime.Today;
@@ -77,7 +97,9 @@ class Program
         Console.WriteLine($"DateTime: {hoje:d}");
         Console.WriteLine($"struct original: {ponto1}");
         Console.WriteLine($"struct copiada e alterada: {ponto2}");
+        #endregion
 
+        #region Reference types
         Console.WriteLine("\nREFERENCE TYPES");
         // Cliente e class, portanto reference type. As variaveis compartilham a mesma referencia.
         Cliente cliente1 = new() { Nome = "Ana", Idade = 25 };
@@ -86,12 +108,16 @@ class Program
 
         Console.WriteLine($"cliente1: {cliente1}");
         Console.WriteLine($"cliente2: {cliente2}");
+        #endregion
 
+        #region Enum
         Console.WriteLine("\nENUM");
         // Enum e value type e deixa o codigo mais legivel do que usar numeros soltos.
         StatusPedido status = StatusPedido.Pago;
         Console.WriteLine($"Enum: {status} = {(int)status}");
+        #endregion
 
+        #region Record
         Console.WriteLine("\nRECORD");
         // Este record e reference type porque foi declarado como record class implicitamente.
         // Ele facilita copia com alteracao usando "with".
@@ -100,7 +126,9 @@ class Program
 
         Console.WriteLine($"record original: {produto1}");
         Console.WriteLine($"record com copia alterada: {produto2}");
+        #endregion
 
+        #region Nullable
         Console.WriteLine("\nNULLABLE");
         // int? e double? continuam sendo value types anulaveis; string? continua sendo reference type anulavel.
         int? estoque = null;
@@ -110,7 +138,9 @@ class Program
         Console.WriteLine($"int?: {(estoque.HasValue ? estoque.Value : 0)}");
         Console.WriteLine($"double?: {desconto ?? 0}");
         Console.WriteLine($"string?: {apelido ?? "sem apelido"}");
+        #endregion
 
+        #region Colecoes
         Console.WriteLine("\nCOLECOES COMUNS");
         // Array, List<T> e Dictionary<TKey, TValue> sao reference types.
         // Array tem tamanho fixo; List cresce dinamicamente; Dictionary busca por chave.
@@ -125,7 +155,9 @@ class Program
         Console.WriteLine($"array: {string.Join(", ", numeros)}");
         Console.WriteLine($"List<T>: {string.Join(", ", tecnologias)}");
         Console.WriteLine($"Dictionary<TKey, TValue>: 1 -> {usuarios[1]}");
+        #endregion
 
+        #region IEnumerable e IQueryable
         Console.WriteLine("\nIENUMERABLE E IQUERYABLE");
         // IEnumerable<T> e uma interface de iteracao em memoria e e um reference type.
         // IQueryable<T> tambem e reference type e costuma ser usado com provedores como Entity Framework.
@@ -143,7 +175,9 @@ class Program
         Console.WriteLine("IEnumerable<int>: " + string.Join(", ", numerosParesEmMemoria));
         Console.WriteLine("IQueryable<Produto>: " + string.Join(", ", consultaProdutos.Select(p => p.Nome)));
         Console.WriteLine("IEnumerable executa sobre dados em memoria; IQueryable pode traduzir a consulta para outra fonte.");
+        #endregion
 
+        #region Conversoes
         Console.WriteLine("\nCONVERSOES");
         // Aqui convertemos de string (reference type) para int (value type).
         // Parse converte texto para numero; TryParse evita excecao em caso de erro.
@@ -153,7 +187,9 @@ class Program
 
         Console.WriteLine($"Parse: {numero}");
         Console.WriteLine($"TryParse: {ok} / valor = {numeroSeguro}");
+        #endregion
 
+        #region Boxing e unboxing
         Console.WriteLine("\nBOXING E UNBOXING");
         // Boxing coloca um value type dentro de object (reference type); unboxing extrai de volta.
         int valor = 50;
@@ -162,7 +198,9 @@ class Program
 
         Console.WriteLine($"boxing em object: {caixa}");
         Console.WriteLine($"unboxing para int: {valorDesempacotado}");
+        #endregion
 
+        #region Ref out e in
         Console.WriteLine("\nREF, OUT E IN");
         // ref altera a variavel original; out retorna valor; in passa somente leitura.
         // ref/out/in funcionam tanto com value types quanto com reference types.
@@ -185,7 +223,9 @@ class Program
         Console.WriteLine($"bool + out -> ret={ret}, somaCalculada={somaCalculada}");
 
         ExibirCliente(in cliente1);
+        #endregion
 
+        #region Tipos anonimos e tuplas
         Console.WriteLine("\nTIPOS ANONIMOS E TUPLAS");
         // Tipo anonimo e reference type; tupla comum em C# e value type.
         // Tipo anonimo e util para objetos temporarios; tupla agrupa valores sem criar classe.
@@ -195,6 +235,15 @@ class Program
         var retornoMetodo = ObterResumoPedido();
         var (produtoResumo, totalResumo, aprovadoResumo) = ObterResumoPedido();
         var (_, totalIgnorado, _) = ObterResumoPedido();
+        var proximaPosicao = Mover(coordenada, 5, -3);
+        List<(string Nome, decimal Preco)> catalogo = new()
+        {
+            ("Mouse", 90m),
+            ("Teclado", 150m),
+            ("Monitor", 1200m)
+        };
+        bool mesmaPosicao = coordenada == (10, 20);
+        string classificacao = ClassificarCoordenada(coordenada);
 
         Console.WriteLine($"anonimo: {anonimo.Titulo} - {anonimo.Nivel}");
         Console.WriteLine($"tupla: {ranking.Nome} - {ranking.Pontos}");
@@ -204,6 +253,14 @@ class Program
         Console.WriteLine(
             $"desconstrucao de tupla: produto={produtoResumo}, total={totalResumo:C}, aprovado={aprovadoResumo}");
         Console.WriteLine($"descarte com _: total={totalIgnorado:C}");
+        Console.WriteLine($"tupla apos operacao: X={proximaPosicao.X}, Y={proximaPosicao.Y}");
+        Console.WriteLine($"comparacao de tuplas: {mesmaPosicao}");
+        Console.WriteLine($"switch com tupla: {classificacao}");
+
+        // Lista de tuplas e util quando voce quer pares simples sem criar uma classe.
+        foreach (var item in catalogo)
+            Console.WriteLine($"item da lista de tuplas: {item.Nome} - {item.Preco:C}");
+        #endregion
     }
 
     static void Trocar(ref int x, ref int y)
@@ -240,5 +297,25 @@ class Program
     {
         // Tupla como retorno permite devolver varios valores sem criar uma classe so para isso.
         return ("Notebook", 3500m, true);
+    }
+
+    static (int X, int Y) Mover((int X, int Y) posicao, int deltaX, int deltaY)
+    {
+        // Tupla tambem pode ser parametro e retorno de metodo.
+        return (posicao.X + deltaX, posicao.Y + deltaY);
+    }
+
+    static string ClassificarCoordenada((int X, int Y) ponto)
+    {
+        // Switch com tupla e pattern matching ajuda a escrever regras de forma clara.
+        return ponto switch
+        {
+            (0, 0) => "Origem",
+            (> 0, > 0) => "Primeiro quadrante",
+            (< 0, > 0) => "Segundo quadrante",
+            (< 0, < 0) => "Terceiro quadrante",
+            (> 0, < 0) => "Quarto quadrante",
+            _ => "Sobre um dos eixos"
+        };
     }
 }
