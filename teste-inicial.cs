@@ -16,6 +16,7 @@ using System.Linq;
 // 11. Boxing e unboxing
 // 12. ref, out e in
 // 13. Tipos anonimos e tuplas
+// 14. Metodos auxiliares
 
 // Enum e um value type que representa um conjunto fixo de valores nomeados.
 enum StatusPedido
@@ -108,6 +109,7 @@ class Program
 
         Console.WriteLine($"cliente1: {cliente1}");
         Console.WriteLine($"cliente2: {cliente2}");
+        Console.WriteLine("As duas variaveis apontam para o mesmo objeto.");
         #endregion
 
         #region Enum
@@ -263,6 +265,7 @@ class Program
         #endregion
     }
 
+    #region Metodos auxiliares
     static void Trocar(ref int x, ref int y)
     {
         // Como usa ref, a troca acontece nas variaveis originais.
@@ -318,4 +321,5 @@ class Program
             _ => "Sobre um dos eixos"
         };
     }
+    #endregion
 }
