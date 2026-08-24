@@ -171,8 +171,18 @@ class Program
         Trocar(ref a, ref b);
         Console.WriteLine($"ref -> a={a}, b={b}");
 
+        // Aqui a variavel "soma" e declarada na propria chamada.
+        // O escopo dela vai deste ponto ate o fim do bloco atual.
+        // Se quiser reutilizar em varios pontos, voce pode declarar antes:
+        // int soma;
+        // Somar(5, 7, out soma);
         Somar(5, 7, out int soma);
         Console.WriteLine($"out -> soma={soma}");
+
+        // Aqui o metodo retorna bool e tambem preenche o out.
+        // Nesse caso, faz sentido guardar o retorno em outra variavel.
+        var ret = TentarSomar(2, 3, out int somaCalculada);
+        Console.WriteLine($"bool + out -> ret={ret}, somaCalculada={somaCalculada}");
 
         ExibirCliente(in cliente1);
 
@@ -181,9 +191,19 @@ class Program
         // Tipo anonimo e util para objetos temporarios; tupla agrupa valores sem criar classe.
         var anonimo = new { Titulo = "Dev", Nivel = "Pleno" };
         (string Nome, int Pontos) ranking = ("Maria", 100);
+        var coordenada = (X: 10, Y: 20);
+        var retornoMetodo = ObterResumoPedido();
+        var (produtoResumo, totalResumo, aprovadoResumo) = ObterResumoPedido();
+        var (_, totalIgnorado, _) = ObterResumoPedido();
 
         Console.WriteLine($"anonimo: {anonimo.Titulo} - {anonimo.Nivel}");
         Console.WriteLine($"tupla: {ranking.Nome} - {ranking.Pontos}");
+        Console.WriteLine($"tupla nomeada: X={coordenada.X}, Y={coordenada.Y}");
+        Console.WriteLine(
+            $"tupla retornada por metodo: {retornoMetodo.Produto} - {retornoMetodo.Total:C} - aprovado={retornoMetodo.Aprovado}");
+        Console.WriteLine(
+            $"desconstrucao de tupla: produto={produtoResumo}, total={totalResumo:C}, aprovado={aprovadoResumo}");
+        Console.WriteLine($"descarte com _: total={totalIgnorado:C}");
     }
 
     static void Trocar(ref int x, ref int y)
@@ -197,12 +217,28 @@ class Program
     static void Somar(int x, int y, out int resultado)
     {
         // out obriga o metodo a atribuir valor antes de terminar.
+        // Quem chama nao precisa inicializar a variavel antes.
         resultado = x + y;
+    }
+
+    static bool TentarSomar(int x, int y, out int resultado)
+    {
+        // Este metodo retorna dois resultados:
+        // 1. o retorno bool, indicando sucesso
+        // 2. o valor calculado via out
+        resultado = x + y;
+        return true;
     }
 
     static void ExibirCliente(in Cliente cliente)
     {
         // in evita copia desnecessaria e impede alteracao do parametro.
         Console.WriteLine($"in -> {cliente}");
+    }
+
+    static (string Produto, decimal Total, bool Aprovado) ObterResumoPedido()
+    {
+        // Tupla como retorno permite devolver varios valores sem criar uma classe so para isso.
+        return ("Notebook", 3500m, true);
     }
 }
